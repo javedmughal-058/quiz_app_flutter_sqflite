@@ -1,19 +1,19 @@
 class Question {
-  String category;
-  String type;
-  String difficulty;
-  String question;
-  String correctAnswer;
-  List<String> incorrectAnswers;
+  String? type;
+  String? difficulty;
+  String? category;
+  String? question;
+  String? correctAnswer;
+  List<String>? incorrectAnswers;
 
   // Constructor
   Question({
-    required this.category,
-    required this.type,
-    required this.difficulty,
-    required this.question,
-    required this.correctAnswer,
-    required this.incorrectAnswers,
+     this.category,
+     this.type,
+     this.difficulty,
+     this.question,
+     this.correctAnswer,
+     this.incorrectAnswers,
   });
 
   // Factory method to create a Question instance from a Map
@@ -23,8 +23,8 @@ class Question {
       type: json['type'],
       difficulty: json['difficulty'],
       question: json['question'],
-      correctAnswer: json['correctAnswer'],
-      incorrectAnswers: List<String>.from(json['incorrectAnswers']),
+      correctAnswer: json['correct_answer'],
+      incorrectAnswers: List<String>.from(json['incorrect_answers']),
     );
   }
 
@@ -35,8 +35,8 @@ class Question {
       'type': type,
       'difficulty': difficulty,
       'question': question,
-      'correctAnswer': correctAnswer,
-      'incorrectAnswers': incorrectAnswers,
+      'correct_answer': correctAnswer,
+      'incorrect_answers': incorrectAnswers,
     };
   }
 }

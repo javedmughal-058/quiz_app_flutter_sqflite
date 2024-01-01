@@ -7,6 +7,7 @@ import 'package:quiz_app_flutter_sqflite/service/api_service.dart';
 
 class QuestionProvider with ChangeNotifier {
   var api = APIService();
+  bool showGrid = false;
   List<Question> listQuestion = [];
   bool isLoading = false;
   String error = "";
@@ -33,6 +34,7 @@ class QuestionProvider with ChangeNotifier {
 
       }
     } on DioException catch (e){
+      isLoading = true;
       log(e.error.toString());
     }
 
@@ -45,6 +47,11 @@ class QuestionProvider with ChangeNotifier {
       answer[currentIndex] = e;
       notifyListeners();
       return;
+  }
+
+  void toggleCategoryView(){
+    showGrid = !showGrid;
+    notifyListeners();
   }
 
   void selectQuestion(dynamic e){

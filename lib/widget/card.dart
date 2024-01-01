@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app_flutter_sqflite/model/categories.dart';
+import 'package:quiz_app_flutter_sqflite/provider/question_provider.dart';
 
 class CardItem extends StatelessWidget {
   final int index;
-  
-  const CardItem({required Key key, required this.index}) : super(key: key);
+  final QuestionProvider questionProvider;
+
+  const CardItem({Key? key, required this.index, required this.questionProvider}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,15 @@ class CardItem extends StatelessWidget {
               width: double.infinity,
               height: 150,
               decoration: BoxDecoration(
-                color: Colors.black26,
+                color: Colors.black38,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: Text(
                   categories[index].name,
-                  style: const TextStyle(
-                    fontSize: 19,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: questionProvider.showGrid ? 14 : 19,
                     color: Colors.white,
                     fontWeight: FontWeight.bold
                   ),
