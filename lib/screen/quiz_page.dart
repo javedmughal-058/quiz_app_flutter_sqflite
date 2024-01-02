@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:html_unescape/html_unescape.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app_flutter_sqflite/model/question.dart';
 import 'package:quiz_app_flutter_sqflite/provider/score_provider.dart';
+import 'package:quiz_app_flutter_sqflite/screen/quiz_finish_page.dart';
 import 'package:quiz_app_flutter_sqflite/util/constant.dart';
 import 'package:quiz_app_flutter_sqflite/util/snack_bar.dart';
 import 'package:quiz_app_flutter_sqflite/widget/awesomedialog.dart';
@@ -23,18 +25,21 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
+  late QuestionProvider questionProvider;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Provider.of<ScoreProvider>(context,listen: false).getAllScore();
+    questionProvider = Provider.of<QuestionProvider>(context,listen: false);
     log("length ${widget.listQuestion.length}");
   }
 
   @override
   Widget build(BuildContext context) {
-    List<int> listQuestionNumber = List<int>.generate(widget.listQuestion.length, (i) =>i  ); // convert array to int
+    List<int> listQuestionNumber = List<int>.generate(widget.listQuestion.length, (i) =>i  );
+    log("Qlength ${widget.listQuestion.length}");
 
     return WillPopScope(
       onWillPop: onBackPress,
@@ -53,23 +58,14 @@ class _QuizPageState extends State<QuizPage> {
             title: Column(
               children: <Widget>[
 
-                Text(widget.listQuestion[widget.id].category ?? "N/A",
-                  style: kHeadingTextStyleAppBar.copyWith(
-                    color: Colors.white,
-                    fontSize: 20,
-                    letterSpacing: 1.0,
-                  ),
+                Text(questionProvider.selectedCategory ?? "N/A",
+                  style: kHeadingTextStyleAppBar.copyWith(color: Colors.white, fontSize: 20, letterSpacing: 1.0),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
-                Text(
-                  "Difficult: ${widget.difficult}",
-                  style: kHeadingTextStyleAppBar.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white
-                  ),
+                Text("Difficult: ${widget.difficult}",
+                  style: kHeadingTextStyleAppBar.copyWith(fontSize: 15, fontWeight: FontWeight.normal, color: Colors.white),
                 ),
 
               ],
@@ -88,10 +84,7 @@ class _QuizPageState extends State<QuizPage> {
                   height: 280,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 50, vertical: 50),
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       color: kItemSelectBottomNav
                   ),
@@ -99,12 +92,9 @@ class _QuizPageState extends State<QuizPage> {
               ),
               Column(
                 children: <Widget>[
-                  const SizedBox(
-                    height: 30,
-                  ),
                   Consumer<QuestionProvider>(
-                    builder: (BuildContext context, QuestionProvider value, Widget? child) {
-                      Question question = widget.listQuestion[value.currentIndex];
+                    builder: (BuildContext context, QuestionProvider provider, Widget? child) {
+                      Question question = widget.listQuestion[provider.currentIndex];
                       final List<String> listOptions = question.incorrectAnswers ?? [];
                       if (!listOptions.contains(question.correctAnswer)) {
                         listOptions.add(question.correctAnswer!);
@@ -121,14 +111,14 @@ class _QuizPageState extends State<QuizPage> {
                                   physics: const BouncingScrollPhysics(),
                                   child: InkWell(
                                     onTap: (){
-                                      value.selectQuestion(e);
+                                      provider.selectQuestion(e);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 15,right: 10),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: value.currentIndex == e ? Colors.grey[200] : const Color(0xff7146ff),
+                                          color: provider.currentIndex == e ? Colors.grey[200] : const Color(0xff7146ff),
                                         ),
                                         child: Center(
                                           child: Padding(
@@ -136,7 +126,7 @@ class _QuizPageState extends State<QuizPage> {
                                             child: Text(
                                               e.toString(),
                                               style: TextStyle(
-                                                  color: value.currentIndex == e ? Colors.black : Colors.white,
+                                                  color: provider.currentIndex == e ? Colors.black : Colors.white,
                                                   fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -150,21 +140,21 @@ class _QuizPageState extends State<QuizPage> {
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                            child: Text(HtmlUnescape().convert(widget.listQuestion[value.currentIndex].question),
+                            child: Text(HtmlUnescape().convert(widget.listQuestion[provider.currentIndex].question!),
                               style: kHeadingTextStyleAppBar.copyWith(
                                 color: Colors.white,
-                                fontSize: 22
+                                fontSize: 18
                             )),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20,),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Column(
                               children: <Widget>[
                                 Container(
@@ -179,7 +169,6 @@ class _QuizPageState extends State<QuizPage> {
                                       ),
                                       BoxShadow(
                                         offset: const Offset(10, 10),
-
                                         color: Colors.grey.shade200,
                                       ),
                                       const BoxShadow(
@@ -193,12 +182,11 @@ class _QuizPageState extends State<QuizPage> {
                                     children: <Widget>[
                                       ...listOptions.map((e) =>
                                           RadioListTile(
-                                            groupValue: value.answer[value.currentIndex],
+                                            groupValue: provider.answer[provider.currentIndex],
                                             activeColor: Colors.red,
-                                            title: Text(""),
-                                            // title: Text(HtmlUnescape().convert(e)),
+                                            title: Text(HtmlUnescape().convert(e)),
                                             onChanged: (abc) {
-                                              value.selectRadio(e);
+                                              provider.selectRadio(e);
                                             },
                                             value: e,
                                           ),
@@ -219,36 +207,37 @@ class _QuizPageState extends State<QuizPage> {
                               child: SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
+                                  style: ElevatedButton.styleFrom(
                                       backgroundColor: kItemSelectBottomNav,
                                       shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       ),
                                   ),
                                   onPressed: () {
-                                    if (value.answer[value.currentIndex] == null) {
+                                    if (provider.answer[provider.currentIndex] == null) {
                                       SnackBarUtils.showSnackBar(context, "Please checked answer!");
-                                    } else if (value.currentIndex == widget.listQuestion.length -1 ) {
+                                    }
+                                    else if (provider.currentIndex == widget.listQuestion.length -1 ) {
                                       buildDialog(
                                         context,
                                         "Finish?", "Are you sure finish quiz?",
                                         DialogType.success, (){
-                                        // Navigator.pushReplacement(context,
-                                        //   MaterialPageRoute(builder: (_)=>
-                                        //       QuizFinishPage(title: widget.listQuestion[widget.id].category,
-                                        //         answer: value.answer,
-                                        //         listQuestion: widget.listQuestion,
-                                        //       ),
-                                        //   ),
-                                        // );
+                                        Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (_)=>
+                                              QuizFinishPage(title: questionProvider.selectedCategory,
+                                                answer: provider.answer,
+                                                listQuestion: widget.listQuestion,
+                                              ),
+                                          ),
+                                        );
                                       },(){},
                                       );
                                     }
                                     else{
-                                      value.submitQuiz(widget.listQuestion);
+                                      provider.submitQuiz(widget.listQuestion);
                                     }
                                   },
-                                  child: Text(value.currentIndex == widget.listQuestion.length-1 ? "Submit" : "Next",
+                                  child: Text(provider.currentIndex == widget.listQuestion.length-1 ? "Submit" : "Next",
                                     style: kHeadingTextStyleAppBar.copyWith(
                                       color: Colors.white,
                                       fontSize: 15,

@@ -36,7 +36,24 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               const SizedBox(
-                height: 50,
+                height: 30,
+              ),
+              Consumer<QuestionProvider>(
+                builder: (context, questionProvider, child) {
+                  return GestureDetector(
+                      onTap: (){
+                        questionProvider.toggleCategoryView();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(questionProvider.showGrid
+                              ? FontAwesomeIcons.thLarge
+                              :  FontAwesomeIcons.bars, size: 18, color: Colors.white),
+                          const SizedBox(width: 15),
+                        ],
+                      ));
+                },
               ),
               const Text("Home",
                 style: TextStyle(
@@ -65,19 +82,7 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 20),
-                            GestureDetector(
-                                onTap: (){
-                                  questionProvider.toggleCategoryView();
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Icon(questionProvider.showGrid
-                                        ? FontAwesomeIcons.thLarge
-                                        :  FontAwesomeIcons.bars, size: 18, color: kItemSelectBottomNav),
-                                    const SizedBox(width: 15),
-                                  ],
-                                )),
+
 
                             questionProvider.showGrid
                                 ? _gridViewItems()
@@ -110,7 +115,10 @@ class _HomePageState extends State<HomePage> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 10,right:10 ,left: 10),
           child: InkWell(
-              onTap: ()=>_buildBottomSheet(context,categories[index].name,categories[index].id),
+              onTap: (){
+                questionProvider.selectedCategory = categories[index].name;
+                _buildBottomSheet(context,categories[index].id);
+                },
               child: CardItem(
                 index: index,
                 questionProvider: questionProvider,
@@ -126,7 +134,10 @@ class _HomePageState extends State<HomePage> {
       return Padding(
         padding: const EdgeInsets.only(bottom: 10,right:10 ,left: 10),
         child: InkWell(
-            onTap: ()=>_buildBottomSheet(context,categories[index].name,categories[index].id),
+            onTap: (){
+              questionProvider.selectedCategory = categories[index].name;
+              _buildBottomSheet(context,categories[index].id);
+            },
             child: CardItem(
               index: index,
               questionProvider: questionProvider,
@@ -136,7 +147,7 @@ class _HomePageState extends State<HomePage> {
     },
   );
 
-  _buildBottomSheet(BuildContext context,String title,int id){
+  _buildBottomSheet(BuildContext context,int id){
     return showModalBottomSheet(
 
         shape: RoundedRectangleBorder(
@@ -144,7 +155,7 @@ class _HomePageState extends State<HomePage> {
 
         ),
         context: context, builder: (_) {
-      return QuizBottomSheet(title: title,id: id);
+      return QuizBottomSheet(id: id);
     });
   }
 }

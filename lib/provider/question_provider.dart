@@ -13,11 +13,12 @@ class QuestionProvider with ChangeNotifier {
   String error = "";
   int currentIndex = 0;
   Map<int,dynamic> answer = {};
+  String selectedCategory = "";
 
 
 
   Future<List<Question>> getDataQuestion(String difficulty,int totalQuestion,int categoriesId) async {
-
+    listQuestion.clear();
     String url = "${api.baseURL}?amount=$totalQuestion&category=$categoriesId&difficulty=$difficulty";
     var dio = Dio();
     isLoading = true;
@@ -35,7 +36,7 @@ class QuestionProvider with ChangeNotifier {
       }
     } on DioException catch (e){
       isLoading = true;
-      log(e.error.toString());
+      log("getDataQuestion ${e.error}");
     }
 
     isLoading =false;

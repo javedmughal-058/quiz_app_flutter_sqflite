@@ -1,11 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app_flutter_sqflite/provider/question_provider.dart';
 import 'package:quiz_app_flutter_sqflite/provider/score_provider.dart';
 import 'package:quiz_app_flutter_sqflite/screen/splash_screen.dart';
+import 'package:quiz_app_flutter_sqflite/service/my_http_override.dart';
 
 
-void main() {runApp(
+void main() {
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(
     MultiProvider(
       providers: [
       ChangeNotifierProvider(

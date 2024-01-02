@@ -1,18 +1,15 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz_app_flutter_sqflite/model/question.dart';
 import 'package:quiz_app_flutter_sqflite/provider/question_provider.dart';
 import 'package:quiz_app_flutter_sqflite/screen/quiz_page.dart';
 import 'package:quiz_app_flutter_sqflite/util/constant.dart';
 
 class QuizBottomSheet extends StatefulWidget {
-  final String title;
   final int id;
 
   const QuizBottomSheet(
-      {Key? key, required this.title, required this.id})
+      {Key? key, required this.id})
       : super(key: key);
 
   @override
@@ -24,6 +21,13 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
   String selectDifficult = "";
   String selectType = "";
   final globalKey = GlobalKey<ScaffoldState>();
+  late QuestionProvider questionProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    questionProvider = Provider.of<QuestionProvider>(context,listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +44,7 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              widget.title,
+            Text(questionProvider.selectedCategory,
               style: const TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -57,6 +60,7 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                // _buildNumberQuestion(5),
                 _buildNumberQuestion(10),
                 _buildNumberQuestion(20),
                 _buildNumberQuestion(30),
