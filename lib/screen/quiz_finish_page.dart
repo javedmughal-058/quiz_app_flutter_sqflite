@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +41,8 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
     super.initState();
     // initializeDateFormatting();
     questionProvider = Provider.of<QuestionProvider>(context,listen: false);
+    log("length ${widget.answer.length}");
+    log("length ${widget.listQuestion.length}");
     widget.answer.forEach((key, value) {
       if (widget.listQuestion[key].correctAnswer == value) {
         correct ++;
@@ -56,66 +60,68 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
         clipBehavior: Clip.none,
         children: <Widget>[
           Positioned(
-            left: -50,
+            top: 30,
+            left: -45,
             child: Container(
               width: 150,
               height: 150,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/ballon2.png'),
-                    fit: BoxFit.cover
+                    fit: BoxFit.contain
                 ),
               ),
             ),
           ),
           Positioned(
-            right: 0,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/ballon4.png'),
-                    fit: BoxFit.cover
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
+            left: 25,
+            top: 30,
             child: Container(
               width: 100,
               height: 100,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/ballon2.png'),
-                    fit: BoxFit.cover
+                    fit: BoxFit.contain
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            right: 30,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/ballon4.png'),
+                    fit: BoxFit.contain
                 ),
               ),
             ),
           ),
           Positioned(
             // bottom: -20,
-            right: -20,
+            top: 30,
+            right: -30,
             child: Container(
-              width: 70,
-              height: 70,
+              width: 120,
+              height: 120,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/ballon4.png'),
-                    fit: BoxFit.cover
+                    fit: BoxFit.contain
                 ),
               ),
             ),
           ),
           Positioned(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(
-                  height: 10,
-                ),
                 SizedBox(
-                  width: 250,
+                  width: 300,
                   child: Image.asset('assets/congratulate.png'),
                 ),
                 Row(
@@ -137,18 +143,14 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                const Text(
-                  "You have successfully completed",
+                const Text("You have successfully completed Quiz for",
                   style: TextStyle(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 15,
                 ),
                 Text(questionProvider.selectedCategory,style: kHeadingTextStyleAppBar.copyWith(fontSize: 25)),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -295,9 +297,9 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                   children: <Widget>[
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: kItemSelectBottomNav,
+                        backgroundColor: Colors.red,
                          shape: RoundedRectangleBorder(
-                           borderRadius: BorderRadius.circular(15),
+                           borderRadius: BorderRadius.circular(25),
                           )),
                       onPressed: () => Navigator.of(context).pop(),
                       child: const Text('Cancel',
@@ -305,9 +307,20 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                           color: Colors.white,
                         ),),
                     ),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          )),
                       onPressed: ()  => _saveScore(),
-                      child: const Text("Save"),
+                      child: const Text("Save",
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
                     ),
                   ],
                 ),
