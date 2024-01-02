@@ -38,7 +38,7 @@ class _ScorePageState extends State<ScorePage> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(' © RankCoder Technology', style: TextStyle(
+                Text(' © Tech CoderGuru Pvt Ltd', style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.0,
                   fontWeight: FontWeight.normal,

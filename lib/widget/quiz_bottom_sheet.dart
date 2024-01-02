@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:quiz_app_flutter_sqflite/provider/question_provider.dart';
 import 'package:quiz_app_flutter_sqflite/screen/quiz_page.dart';
 import 'package:quiz_app_flutter_sqflite/util/constant.dart';
+import 'package:quiz_app_flutter_sqflite/util/snack_bar.dart';
 
 class QuizBottomSheet extends StatefulWidget {
   final int id;
@@ -230,18 +231,9 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
 
         }
       });
-
-
     }
     else {
-      const snackBar = SnackBar(
-        duration: Duration(milliseconds: 800),
-        elevation: 5.0,
-        content: Text(
-          'Please choose option!',
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      SnackBarUtils.showSnackBar(context, 'Please choose option!');
     }
   }
 }
