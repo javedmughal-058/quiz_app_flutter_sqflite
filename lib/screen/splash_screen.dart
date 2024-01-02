@@ -56,7 +56,7 @@ class _SplashPageState extends State<SplashPage> {
               fontSize: 14,
             )),
             SizedBox(height: 10),
-            Text("© RankCoder Technology, Inc. All rights reserved", style: TextStyle(
+            Text("© Tech CoderGuru Pvt Ltd, Inc. All rights reserved", style: TextStyle(
               color: Colors.white,
               letterSpacing: 1.0,
               fontWeight: FontWeight.normal,

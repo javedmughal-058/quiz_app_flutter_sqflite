@@ -80,13 +80,15 @@ class ShowQuestionPage extends StatelessWidget {
                                     "Answer: "
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: Text(
-                                  answer[index] ?? "",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: correct ? Colors.green : Colors.red,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    answer[index] ?? "",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: correct ? Colors.green : Colors.red,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -105,18 +107,22 @@ class ShowQuestionPage extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          correct ? Container() : Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const Text("Correct: "),
-                              Text(HtmlUnescape().convert(question.correctAnswer!),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold
-                                ),)
-                            ],
-                          )
+                          correct
+                              ? Container()
+                              : Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  const Text("Correct: "),
+                                  Expanded(
+                                    child: Text(HtmlUnescape().convert(question.correctAnswer!),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold
+                                      ),),
+                                  )
+                                ],
+                              )
                         ],
                       ),
                     ),

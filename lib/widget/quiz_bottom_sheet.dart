@@ -198,6 +198,7 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
 
   _startQuiz(QuestionProvider provider) async {
     if (selectNumber != null) {
+      provider.currentIndex = 0;
       provider.isLoadingFunc(false);
       await provider.getDataQuestion(
           selectDifficult.toLowerCase(),

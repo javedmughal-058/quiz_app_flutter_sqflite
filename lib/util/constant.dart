@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 // color
-var kItemSelectBottomNav = const Color(0xffee6f08).withOpacity(.9);
+var kItemSelectBottomNav = const Color(0xff05d377).withOpacity(.9);
+var kSecondaryColor = Colors.green;
 const kItemUnSelectBottomNav = Colors.grey;
 
 //TextStyles
