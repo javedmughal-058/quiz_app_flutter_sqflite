@@ -36,24 +36,35 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               const SizedBox(
-                height: 10,
+                height: 40,
               ),
-              Consumer<QuestionProvider>(
-                builder: (context, questionProvider, child) {
-                  return GestureDetector(
-                      onTap: (){
-                        questionProvider.toggleCategoryView();
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Icon(questionProvider.showGrid
-                              ? FontAwesomeIcons.thLarge
-                              :  FontAwesomeIcons.bars, size: 18, color: Colors.white),
-                          const SizedBox(width: 15),
-                        ],
-                      ));
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(' © Tech CoderGuru Pvt Ltd', style: TextStyle(
+                    color: Colors.white,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 12,
+                  )),
+                  Consumer<QuestionProvider>(
+                    builder: (context, questionProvider, child) {
+                      return GestureDetector(
+                          onTap: (){
+                            questionProvider.toggleCategoryView();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(questionProvider.showGrid
+                                  ? FontAwesomeIcons.thLarge
+                                  :  FontAwesomeIcons.bars, size: 18, color: Colors.white),
+                              const SizedBox(width: 15),
+                            ],
+                          ));
+                    },
+                  ),
+                ],
               ),
               const Text("Home",
                 style: TextStyle(
@@ -67,12 +78,12 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),),
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),),
                   ),
                   child: SingleChildScrollView(
                     child: Consumer<QuestionProvider>(
@@ -81,9 +92,6 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 20),
-
-
                             questionProvider.showGrid
                                 ? _gridViewItems()
                                 : _listViewItems()
@@ -106,6 +114,7 @@ class _HomePageState extends State<HomePage> {
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       itemCount: categories.length,
+      padding: const EdgeInsets.all(4),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3, // Set the number of columns in the grid
         crossAxisSpacing: 8.0, // Set the horizontal spacing between grid items
@@ -129,6 +138,7 @@ class _HomePageState extends State<HomePage> {
   Widget _listViewItems() => ListView.builder(
     itemCount: categories.length,
     physics: const ClampingScrollPhysics(),
+    padding: const EdgeInsets.all(4),
     shrinkWrap: true,
     itemBuilder: (BuildContext context, int index) {
       return Padding(
