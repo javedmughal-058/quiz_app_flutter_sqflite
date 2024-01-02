@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app_flutter_sqflite/model/question.dart';
+import 'package:quiz_app_flutter_sqflite/provider/question_provider.dart';
 import 'package:quiz_app_flutter_sqflite/provider/score_provider.dart';
 import 'package:quiz_app_flutter_sqflite/screen/dashboard_page.dart';
 import 'package:quiz_app_flutter_sqflite/screen/show_question_page.dart';
@@ -8,11 +10,10 @@ import 'package:quiz_app_flutter_sqflite/util/constant.dart';
 import 'package:quiz_app_flutter_sqflite/widget/button.dart';
 
 class QuizFinishPage extends StatefulWidget {
-  final String title;
   final Map<int,dynamic> answer;
   final List<Question> listQuestion;
 
-  const QuizFinishPage({Key? key, required this.title, required this.answer, required this.listQuestion}) : super(key: key);
+  const QuizFinishPage({Key? key,required this.answer, required this.listQuestion}) : super(key: key);
 
   @override
   State<QuizFinishPage> createState() => _QuizFinishPageState();
@@ -23,6 +24,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
   int incorrect = 0;
   int score = 0 ;
   final nameController = TextEditingController();
+  late QuestionProvider questionProvider;
 
   @override
   void dispose() {
@@ -36,6 +38,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
     // TODO: implement initState
     super.initState();
     // initializeDateFormatting();
+    questionProvider = Provider.of<QuestionProvider>(context,listen: false);
     widget.answer.forEach((key, value) {
       if (widget.listQuestion[key].correctAnswer == value) {
         correct ++;
@@ -143,7 +146,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text(widget.title,style: kHeadingTextStyleAppBar.copyWith(fontSize: 25)),
+                Text(questionProvider.selectedCategory,style: kHeadingTextStyleAppBar.copyWith(fontSize: 25)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -241,10 +244,8 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
       builder: (context) {
         return Dialog(
           backgroundColor: Colors.white,
-          insetAnimationDuration:
-          const Duration(milliseconds: 100),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),),
+          insetAnimationDuration: const Duration(milliseconds: 100),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
             width: double.infinity,
@@ -254,7 +255,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                 Text('Save Score',
                   style: kHeadingTextStyleAppBar.copyWith(
                       fontSize: 20
-                  ),),
+                  )),
                 const SizedBox(
                   height: 15,
                 ),
@@ -276,7 +277,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                     children: <Widget>[
                       const Text("Your Score: ",style: TextStyle(
                           fontSize: 18
-                      ),),
+                      )),
                       const SizedBox(
                         width: 8,
                       ),
@@ -285,7 +286,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                           color: Colors.red
                       ),),
                     ],
-                  ),),
+                  )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -298,7 +299,7 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
                          shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(15),
                           )),
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).pop(),
                       child: const Text('Cancel',
                         style: TextStyle(
                           color: Colors.white,
@@ -319,10 +320,9 @@ class _QuizFinishPageState extends State<QuizFinishPage> {
   }
   _saveScore() async {
     var now =  DateTime.now();
-    // String datetime =  DateFormat.yMd().format(now);
-    String datetime =  "";
+    String datetime = DateFormat.yMd().format(now);
     await Provider.of<ScoreProvider>(context,listen: false).addScore(nameController.text,
-        widget.title, score,datetime ,correct,widget.listQuestion.length).then((value){
+        questionProvider.selectedCategory, score,datetime ,correct,widget.listQuestion.length).then((value){
       Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (_)=> const DashBoardPage()), (e) => false);
     });
 

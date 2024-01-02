@@ -23,27 +23,29 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: listScreen,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        backgroundColor: Colors.white,
-        selectedItemColor: kItemSelectBottomNav,
-        elevation: 5.0,
-        unselectedItemColor: kItemUnSelectBottomNav,
-        onTap: (index){
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        items: <BottomNavigationBarItem>[
-          _buildItemBottomNav(FontAwesomeIcons.house, "Home"),
-          _buildItemBottomNav(FontAwesomeIcons.clockRotateLeft,"Point" )
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: IndexedStack(
+          index: currentIndex,
+          children: listScreen,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          backgroundColor: Colors.white,
+          selectedItemColor: kItemSelectBottomNav,
+          elevation: 5.0,
+          unselectedItemColor: kItemUnSelectBottomNav,
+          onTap: (index){
+            setState(() {
+              currentIndex = index;
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            _buildItemBottomNav(FontAwesomeIcons.house, "Home"),
+            _buildItemBottomNav(FontAwesomeIcons.clockRotateLeft,"Point" )
+          ],
 
+        ),
       ),
     );
   }

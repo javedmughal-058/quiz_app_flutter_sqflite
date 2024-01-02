@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               const SizedBox(
-                height: 30,
+                height: 10,
               ),
               Consumer<QuestionProvider>(
                 builder: (context, questionProvider, child) {

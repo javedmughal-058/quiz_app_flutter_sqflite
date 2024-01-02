@@ -118,7 +118,7 @@ class _QuizPageState extends State<QuizPage> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: provider.currentIndex == e ? Colors.grey[200] : const Color(0xff7146ff),
+                                          color: provider.currentIndex == e ? Colors.grey[200] : Colors.orange,
                                         ),
                                         child: Center(
                                           child: Padding(
@@ -224,7 +224,7 @@ class _QuizPageState extends State<QuizPage> {
                                         DialogType.success, (){
                                         Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (_)=>
-                                              QuizFinishPage(title: questionProvider.selectedCategory,
+                                              QuizFinishPage(
                                                 answer: provider.answer,
                                                 listQuestion: widget.listQuestion,
                                               ),

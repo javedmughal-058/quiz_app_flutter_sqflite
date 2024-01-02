@@ -48,6 +48,21 @@ class _SplashPageState extends State<SplashPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 40,
               )),
+            SizedBox(height: 20),
+            Text("By (MJ) ", style: TextStyle(
+              color: Colors.white,
+              letterSpacing: 3.0,
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            )),
+            SizedBox(height: 10),
+            Text("© RankCoder Technology, Inc. All rights reserved", style: TextStyle(
+              color: Colors.white,
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.normal,
+              fontSize: 12,
+            )),
+
           ],
         ),
       ),

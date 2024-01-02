@@ -91,7 +91,7 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
               child: Consumer<QuestionProvider>(
                 builder: (BuildContext context, QuestionProvider value, Widget? child) {
                   return value.isLoading
-                      ? const CircularProgressIndicator()
+                      ? CircularProgressIndicator(backgroundColor: kItemSelectBottomNav, color: Colors.white,)
                       : Visibility(
                         visible: !value.isLoading,
                         child: ElevatedButton(
@@ -231,7 +231,8 @@ class _QuizBottomSheetState extends State<QuizBottomSheet> {
       });
 
 
-    } else {
+    }
+    else {
       const snackBar = SnackBar(
         duration: Duration(milliseconds: 800),
         elevation: 5.0,
