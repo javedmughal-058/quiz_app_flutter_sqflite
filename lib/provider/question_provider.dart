@@ -19,6 +19,7 @@ class QuestionProvider with ChangeNotifier {
 
   Future<List<Question>> getDataQuestion(String difficulty,int totalQuestion,int categoriesId) async {
     listQuestion.clear();
+    answer.clear();
     String url = "${api.baseURL}?amount=$totalQuestion&category=$categoriesId&difficulty=$difficulty";
     var dio = Dio();
     isLoading = true;
