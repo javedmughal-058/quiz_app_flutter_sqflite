@@ -118,7 +118,7 @@ class _QuizPageState extends State<QuizPage> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: provider.currentIndex == e ? Colors.grey[200] : Colors.orange,
+                                          color: provider.currentIndex == e ? Colors.grey[200] : kSecondaryColor,
                                         ),
                                         child: Center(
                                           child: Padding(
