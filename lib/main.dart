@@ -38,9 +38,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff05d377).withOpacity(.9)),
         useMaterial3: true,
       ),
+      transitionDuration: const Duration(milliseconds: 700),
+      defaultTransition: Transition.fadeIn,
       home: const SplashPage(),
     );
   }

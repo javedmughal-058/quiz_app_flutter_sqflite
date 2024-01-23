@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:quiz_app_flutter_sqflite/screen/dashboard_page.dart';
+import 'package:quiz_app_flutter_sqflite/screen/welcome_page.dart';
 
 class FadeInAnimationController extends GetxController {
   static FadeInAnimationController get find => Get.find();
@@ -13,9 +13,8 @@ class FadeInAnimationController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 4000));
     animate.value = false;
     await Future.delayed(const Duration(milliseconds: 2000));
-    Get.off(() => const DashBoardPage(),
-        duration: const Duration(milliseconds: 1000),
-        transition: Transition.fadeIn);
+    Get.off(() => const WelcomePage(),
+        duration: const Duration(milliseconds: 1000));
   }
 
   //Call where you need to animate In any widget.

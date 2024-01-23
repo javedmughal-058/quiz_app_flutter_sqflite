@@ -46,7 +46,7 @@ class _ScorePageState extends State<ScorePage> {
                 )),
               ],
             ),
-            const Text("History Point",
+            const Text("Quiz History",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
